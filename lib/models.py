@@ -28,6 +28,8 @@ class Accounts(Base):
     id = Column(Integer(), primary_key=True)
     balance = Column(Integer())  
     customer_id = Column(Integer(), ForeignKey('customers.id'))
+    customer = relationship('Customer', back_populates='accounts')
+
     transactions = relationship('Transactions', back_populates='account')  
 
     def __repr__(self):
@@ -42,6 +44,8 @@ class Transactions(Base):
     amount = Column(Integer())
     timestamp = Column(DateTime, default=func.now()) 
     type = Column(String())  
+    account = relationship('Accounts', back_populates='transactions')
+
 
     def __repr__(self):
         return f"Transactions(ID={self.id}, Type={self.type}, Amount={self.amount})"
